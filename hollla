@@ -1,0 +1,23 @@
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import ssl
+import re 
+numlist=list() 
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+url = input('Enter - ')
+html = urlopen(url, context=ctx).read()
+soup = BeautifulSoup(html, "html.parser")
+ 
+     for line in soup:
+         line=line.rstrip()
+         stuff=re.findall('span.*>([0-9]+)',line)
+     
+         if len(stuff)<1:
+             continue
+         for cheese in stuff:
+             num=float(cheese)
+             numlist.append(num)
+     print(sum(numlist))
